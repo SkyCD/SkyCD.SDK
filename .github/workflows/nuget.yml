@@ -1,0 +1,55 @@
+name: SDK NuGet
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+    tags: ['v*']
+
+permissions:
+  contents: read
+
+jobs:
+  pack:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 10.0.x
+      - run: dotnet restore SkyCD.SDK.csproj --locked-mode
+      - run: dotnet format SkyCD.SDK.csproj --verify-no-changes --no-restore --verbosity minimal
+      - run: dotnet pack SkyCD.SDK.csproj --configuration Release --no-restore --output artifacts -warnaserror
+      - name: Verify release tag
+        if: github.ref_type == 'tag'
+        run: |
+          git merge-base --is-ancestor HEAD origin/main
+          version=$(dotnet msbuild SkyCD.SDK.csproj -getProperty:PackageVersion)
+          test "$GITHUB_REF_NAME" = "v$version"
+      - uses: actions/upload-artifact@v7
+        if: github.ref_type == 'tag'
+        with:
+          name: sdk-nuget
+          path: artifacts/*.nupkg
+          if-no-files-found: error
+
+  publish:
+    if: github.ref_type == 'tag'
+    needs: pack
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+    steps:
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 10.0.x
+      - uses: actions/download-artifact@v8
+        with:
+          name: sdk-nuget
+          path: artifacts
+      - name: Publish SDK to GitHub Packages
+        env:
+          NUGET_API_KEY: ${{ secrets.GITHUB_TOKEN }}
+        run: dotnet nuget push artifacts/*.nupkg --source https://nuget.pkg.github.com/SkyCD/index.json --api-key "$NUGET_API_KEY" --skip-duplicate
