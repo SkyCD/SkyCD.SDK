@@ -4,7 +4,7 @@
         <ImplicitUsings>disable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <Version>3.0.0-alpha.1</Version>
+        <Version>3.0.0-alpha.2</Version>
         <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
         <!-- The single, versioned plugin-authoring surface third-party authors reference (#1014). -->
         <IsPackable>true</IsPackable>
@@ -15,11 +15,11 @@
         <RepositoryUrl>https://github.com/SkyCD/SkyCD.SDK</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
+        <PackageLicenseExpression>BSD-2-Clause</PackageLicenseExpression>
         <PackageTags>skycd;plugin;sdk;extensibility</PackageTags>
         <Description>The strict plugin-authoring contract surface for SkyCD: capability, lifecycle, host-service and request/result contracts. Contains no third-party helper types; SkiaSharp, XmpCore and other implementation dependencies stay behind host services.</Description>
     </PropertyGroup>
     <ItemGroup>
-        <None Update="README.md" Pack="true" PackagePath="\" />
+        <None Update="README.md;LICENSE" Pack="true" PackagePath="\" />
     </ItemGroup>
 </Project>

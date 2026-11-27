@@ -10,7 +10,7 @@ Configure the SkyCD NuGet feed at https://nuget.pkg.github.com/SkyCD/index.json.
 Authenticate with a classic GitHub personal access token with read:packages scope, or
 use a GitHub Actions token from a repository with package read access.
 
-    dotnet add package SkyCD.SDK --version 3.0.0-alpha.1
+    dotnet add package SkyCD.SDK --version 3.0.0-alpha.2
 
 ## What is in the package
 
@@ -57,9 +57,9 @@ Authoring guides: <https://github.com/SkyCD/SkyCD/tree/main/docs/plugins>
 ## Releasing
 
 Bump the project version on main for each release (3.0.0-alpha.1, 3.0.0-alpha.2,
-and so on). Push a matching tag such as v3.0.0-alpha.2 for that commit. GitHub
+and so on). Push a matching tag such as v3.0.0-alpha.3 for that commit. GitHub
 Actions verifies the tag and publishes the package to GitHub Packages.
 
 ## License
 
-BSD-3-Clause
+BSD-2-Clause
